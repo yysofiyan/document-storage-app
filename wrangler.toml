@@ -1,0 +1,9 @@
+name = "document-storage-app"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "my-db-name"
+database_id = "a500db57-c0b5-4ee0-b54b-736b465b7a5e"
+migrations_dir = "drizzle"
