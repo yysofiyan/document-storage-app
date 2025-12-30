@@ -6,7 +6,7 @@ import { createDocument } from "@/app/actions"
 import { useState } from "react"
 import { AlertCircle, Upload } from "lucide-react"
 import { Input } from "./ui/input"
-import { Button } from "react-day-picker"
+import { Button } from "./ui/button"
 
 interface DocumentUploadFormProps {
   onDocumentAdded: () => void
@@ -16,13 +16,13 @@ export function DocumentUploadForm({ onDocumentAdded }: DocumentUploadFormProps)
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
-    category: "Umum",
+    category: "Dokumen",
     description: "",
     driveLink: "",
     fileSize: "Unknown", // Default value or add input for it
   })
 
-  const categories = ["Umum", "Bisnis", "Keuangan", "Hukum", "Medis", "Pendidikan", "Lainnya"]
+  const categories = ["Dokumen", "Lainnya"]
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -55,7 +55,7 @@ export function DocumentUploadForm({ onDocumentAdded }: DocumentUploadFormProps)
       if (result.success) {
         setFormData({
           name: "",
-          category: "Umum",
+          category: "Dokumen",
           description: "",
           driveLink: "",
           fileSize: "Unknown",

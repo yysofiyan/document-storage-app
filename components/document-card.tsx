@@ -17,19 +17,14 @@ interface DocumentCardProps {
   document: Document
   onDelete: (id: number) => void
 }
-
+// DocumentCard component to display individual document details
 export function DocumentCard({ document, onDelete }: DocumentCardProps) {
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
-      Bisnis: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-      Keuangan: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-      Hukum: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
-      Medis: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
-      Pendidikan: "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200",
-      Umum: "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200",
+      Dokumen: "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200",
       Lainnya: "bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-200",
     }
-    return colors[category] || colors["Umum"]
+    return colors[category] || colors["Dokumen"]
   }
 
   return (
