@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { FileText, ExternalLink, Trash2, Calendar } from "lucide-react"
 
 interface Document {
-  id: string
+  id: number
   name: string
   category: string
   description: string
@@ -15,7 +15,7 @@ interface Document {
 
 interface DocumentCardProps {
   document: Document
-  onDelete: (id: string) => void
+  onDelete: (id: number) => void
 }
 
 export function DocumentCard({ document, onDelete }: DocumentCardProps) {

@@ -10,8 +10,8 @@ export const getDb = (env?: any) => {
     // Fallback to getRequestContext for Next.js App Router
     try {
         const context = getRequestContext();
-        if (context && context.env && context.env.DB) {
-            return drizzle(context.env.DB, { schema });
+        if (context && context.env && (context.env as any).DB) {
+            return drizzle((context.env as any).DB, { schema });
         }
     } catch (e) {
         // Ignore error if not in Cloudflare context

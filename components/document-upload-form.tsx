@@ -2,13 +2,14 @@
 
 import type React from "react"
 
+import { createDocument } from "@/app/actions"
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Upload, AlertCircle } from "lucide-react"
+import { AlertCircle, Upload } from "lucide-react"
+import { Input } from "./ui/input"
+import { Button } from "react-day-picker"
 
 interface DocumentUploadFormProps {
-  onDocumentAdded: (document: any) => void
+  onDocumentAdded: () => void
 }
 
 export function DocumentUploadForm({ onDocumentAdded }: DocumentUploadFormProps) {
@@ -18,6 +19,7 @@ export function DocumentUploadForm({ onDocumentAdded }: DocumentUploadFormProps)
     category: "Umum",
     description: "",
     driveLink: "",
+    fileSize: "Unknown", // Default value or add input for it
   })
 
   const categories = ["Umum", "Bisnis", "Keuangan", "Hukum", "Medis", "Pendidikan", "Lainnya"]
@@ -40,37 +42,40 @@ export function DocumentUploadForm({ onDocumentAdded }: DocumentUploadFormProps)
 
     setIsLoading(true)
 
-    // Simulasi proses unggah
-    setTimeout(() => {
-      const newDocument = {
-        id: Date.now().toString(),
-        name: formData.name,
-        category: formData.category,
-        description: formData.description,
-        driveLink: formData.driveLink,
-        uploadDate: new Date().toLocaleDateString("id-ID", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-        }),
-        fileSize: "--",
-      }
+    try {
+      const data = new FormData()
+      data.append("name", formData.name)
+      data.append("category", formData.category)
+      data.append("description", formData.description)
+      data.append("driveLink", formData.driveLink)
+      data.append("fileSize", formData.fileSize)
 
-      onDocumentAdded(newDocument)
-      setFormData({
-        name: "",
-        category: "Umum",
-        description: "",
-        driveLink: "",
-      })
+      const result = await createDocument(data)
+
+      if (result.success) {
+        setFormData({
+          name: "",
+          category: "Umum",
+          description: "",
+          driveLink: "",
+          fileSize: "Unknown",
+        })
+        onDocumentAdded()
+      } else {
+        alert("Gagal menyimpan dokumen")
+      }
+    } catch (error) {
+      console.error(error)
+      alert("Terjadi kesalahan")
+    } finally {
       setIsLoading(false)
-    }, 1000)
+    }
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded p-3 flex gap-3">
-        <AlertCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+        <AlertCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
         <p className="text-sm text-blue-800 dark:text-blue-200">
           Unggah dokumen Anda ke Google Drive terlebih dahulu, kemudian salin link shareable di sini.
         </p>
@@ -84,7 +89,7 @@ export function DocumentUploadForm({ onDocumentAdded }: DocumentUploadFormProps)
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="contoh: Proposal Bisnis 2024"
+            placeholder="contoh: Dokumen SOP"
             required
           />
         </div>

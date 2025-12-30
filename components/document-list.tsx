@@ -3,7 +3,7 @@
 import { DocumentCard } from "./document-card"
 
 interface Document {
-  id: string
+  id: number
   name: string
   category: string
   description: string
@@ -14,7 +14,7 @@ interface Document {
 
 interface DocumentListProps {
   documents: Document[]
-  onDelete: (id: string) => void
+  onDelete: (id: number) => void
 }
 
 export function DocumentList({ documents, onDelete }: DocumentListProps) {
