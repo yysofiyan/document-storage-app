@@ -12,9 +12,11 @@ export const getDb = (env?: any) => {
         const context = getRequestContext();
         if (context && context.env && (context.env as any).DB) {
             return drizzle((context.env as any).DB, { schema });
+        } else {
+            console.error("DB binding not found in context", context);
         }
     } catch (e) {
-        // Ignore error if not in Cloudflare context
+        console.error("Error getting request context", e);
     }
 
     throw new Error("Database binding not found. Ensure you are running in a Cloudflare environment or pass the env object.");

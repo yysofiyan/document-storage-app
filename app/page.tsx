@@ -3,6 +3,7 @@ import { DocumentManager } from "@/components/document-manager"
 import { getDocuments } from "@/app/actions"
 
 export const runtime = "edge"
+export const dynamic = "force-dynamic"
 
 export default async function Home() {
   const documents = await getDocuments()
